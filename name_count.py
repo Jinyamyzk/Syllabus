@@ -10,7 +10,7 @@ import collections
 #     words[word] = words.get(word, 0) + 1
 
 # 集計方法2 内包表現を使用
-path = 'syllabus_sample.csv'
+path = 'syllabus_sample_word_list_exclude.csv'
 with open(path) as f:
     words = [s.strip() for s in f.readlines()]
 

@@ -104,5 +104,5 @@ print('-----------------')
 print('Delited ' + str(len(words) - len(changed_words)) + ' words' )
 print('-----------------')
 
-with open(corpus_dir_path.joinpath(file_name.replace('.txt', '_word_list_exclude.txt')), 'w', encoding='utf-8') as file:
+with open(corpus_dir_path.joinpath(file_name.replace('.csv', '_word_list_exclude.csv')), 'w', encoding='utf-8') as file:
     file.writelines(changed_words)
