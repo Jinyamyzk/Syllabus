@@ -45,40 +45,36 @@ tbody = table.select_one('tbody')
 tr_tags = []
 for i in range(3):
     tr_tags.append(tbody.find_all('tr')[i])
+sum_class_info = []
 
-strip_syllabus = []
-important_list = []
-l = tr_tags[1]
-td_tags=l.find_all('td')
-syllabus_url = "https://kym-syllabus.ofc.kobe-u.ac.jp/kobe_syllabus/2018/02/data/2018_{}"+td_tags[7].text.strip()+".html"
-print(syllabus_url)
-syllabus_res = requests.get(syllabus_url)
-syllabus_soup = BeautifulSoup(syllabus_res.text, "html.parser")
-elems = syllabus_soup.select('.gaibu-syllabus')
-for elem in elems:
-    strip_syllabus.append(elem.text.strip())
-important_list.append(strip_syllabus[0])
-important_list.append(strip_syllabus[3])
-important_list.append(strip_syllabus[4])
-time.sleep(3)
-print(important_list)
-print(td_tags[7])
+for tr_tag in tr_tags:
+    td_tags = tr_tag.find_all('td')
 
-# for tr_tag in tr_tags:
-#
-#     td_tags = tr_tag.find_all('td')
-#     print(td_tags[7])
-#     syllabus_url = "https://kym-syllabus.ofc.kobe-u.ac.jp/kobe_syllabus/2018/02/data/2018_{}.html"
-#     syllabus_res = requests.get(syllabus_url.format(td_tags[7].text.strip()))
-#     syllabus_soup = BeautifulSoup(syllabus_res.text, "html.parser")
-#     elems = syllabus_soup.select('.gaibu-syllabus')
-#     for elem in elems:
-#         strip_syllabus.append(elem.text.strip())
-#     important_list.append(strip_syllabus[0])
-#     important_list.append(strip_syllabus[3])
-#     important_list.append(strip_syllabus[4])
-#     time.sleep(3)
-#     print(important_list)
+    syllabus_url = "https://kym-syllabus.ofc.kobe-u.ac.jp/kobe_syllabus/2018/02/data/2018_{}.html"
+    syllabus_res = requests.get(syllabus_url.format(td_tags[7].text.strip()))
+
+    syllabus_soup = BeautifulSoup(syllabus_res.text, "html.parser")
+    elems = syllabus_soup.select('.gaibu-syllabus')
+    strip_syllabus = []
+
+    important_list = []
+    for elem in elems:
+        strip_syllabus.append(elem.text.strip())
+
+    important_list.append(strip_syllabus[0])
+    # important_list.append(strip_syllabus[3])
+    # important_list.append(strip_syllabus[4])
+    sum_class_info.append(important_list)
+
+
+
+    print(sum_class_info)
+    print("__________________________________")
+
+    with open('/Users/Jinya/Desktop/Syllabus/syllabus_sample.csv', 'w',encoding='utf8') as f:
+        writer = csv.writer(f)
+        writer.writerow(["テーマ"])
+        writer.writerows(sum_class_info)
 
 
 
