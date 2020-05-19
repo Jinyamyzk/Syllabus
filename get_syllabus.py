@@ -70,8 +70,7 @@ for tr_tag in tr_tags:
 
 
 
-    print(sum_class_info)
-    print("__________________________________")
+    
 
     time.sleep(3)
 

@@ -81,15 +81,17 @@ for text in texts:
 
 # 正規化された際に一文字もない文の削除後の元テキストデータ
 raw_texts = [text_+'\n' for text_ in raw_texts]
-with open(data_dir_path.joinpath(file_name.replace('.txt', '_cut.txt')), 'w', encoding='utf-8') as file:
+with open(data_dir_path.joinpath(file_name.replace('.csv', '_cut.csv')), 'w', encoding='utf-8') as file:
     file.writelines(raw_texts)
 
 # 単語リストの作成
 words = []
 for text in tokens_list:
     words.extend([word+'\n' for word in text if word != ''])
-with open(corpus_dir_path.joinpath(file_name.replace('.txt', '_word_list.txt')), 'w', encoding='utf-8') as file:
+with open(corpus_dir_path.joinpath(file_name.replace('.csv', '_word_list.csv')), 'w', encoding='utf-8') as file:
     file.writelines(words)
+
+
 
 # 単語リストからストップワードを削除
 ## ストップワードファイルからの呼び込み
@@ -99,6 +101,7 @@ with open(path) as f:
     stop_words = f.readlines()
 
 ## ストップワードの除外
+
 changed_words = [word for word in words if word not in stop_words]
 print('-----------------')
 print('Delited ' + str(len(words) - len(changed_words)) + ' words' )
@@ -106,3 +109,4 @@ print('-----------------')
 
 with open(corpus_dir_path.joinpath(file_name.replace('.csv', '_word_list_exclude.csv')), 'w', encoding='utf-8') as file:
     file.writelines(changed_words)
+print(changed_words)
