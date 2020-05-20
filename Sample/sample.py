@@ -54,16 +54,21 @@ for tr_tag in tr_tags:
     syllabus_res = requests.get(syllabus_url.format(td_tags[7].text.strip()))
 
     syllabus_soup = BeautifulSoup(syllabus_res.text, "html.parser")
-    elems = syllabus_soup.select('.gaibu-syllabus')
-    strip_syllabus = []
+    class_name = syllabus_soup.select('body > table:nth-of-type(2) > tr:nth-of-type(2) > td > table > tr:nth-of-type(3) > td:nth-of-type(2)')
 
+
+    strip_syllabus = []
+    elems = syllabus_soup.select('.gaibu-syllabus')
     important_list = []
+    for name in class_name:
+        important_list.append(name.text.strip())
     for elem in elems:
         strip_syllabus.append(elem.text.strip())
 
+
     important_list.append(strip_syllabus[0])
-    # important_list.append(strip_syllabus[3])
-    # important_list.append(strip_syllabus[4])
+    important_list.append(strip_syllabus[3])
+    important_list.append(strip_syllabus[4])
     sum_class_info.append(important_list)
 
 
@@ -71,13 +76,10 @@ for tr_tag in tr_tags:
     print(sum_class_info)
     print("__________________________________")
 
-    with open('/Users/Jinya/Desktop/Syllabus/syllabus_sample.csv', 'w',encoding='utf8') as f:
+    with open('/Users/Jinya/Desktop/Syllabus/Sample/syllabus_sample.csv', 'w',encoding='utf8') as f:
         writer = csv.writer(f)
-        writer.writerow(["テーマ"])
+        writer.writerow(["科目名","テーマ", "成績評価方法", "成績評価基準"])
         writer.writerows(sum_class_info)
-
-
-
 
 
 
