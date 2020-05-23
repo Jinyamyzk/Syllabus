@@ -9,6 +9,7 @@ t = Tokenizer()
 
 theme_word_list = []
 for row in array:
+    # row_ = re.sub('u3000',"",row[1])
     token_list = t.tokenize(row[1])
     word_list = []
     word_list.append(row[0])
