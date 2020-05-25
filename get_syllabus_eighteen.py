@@ -1,4 +1,3 @@
-
 import time
 from selenium import webdriver
 from selenium.webdriver.support.select import Select
@@ -117,8 +116,7 @@ add_sum_class()
 
 print(sum_class_info)
 
-
-    with open('/Users/Jinya/Desktop/Syllabus/Sample/syllabus_sample.csv', 'w',encoding='utf8') as f:
+with open('/Users/Jinya/Desktop/Syllabus/syllabus_2018.csv', 'w',encoding='utf8') as f:
         writer = csv.writer(f)
         writer.writerow(["科目名","テーマ"])
         writer.writerows(sum_class_info)

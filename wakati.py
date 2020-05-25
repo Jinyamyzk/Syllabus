@@ -5,7 +5,7 @@ import nltk
 from nltk.corpus import stopwords
 
 import pandas as pd
-df = pd.read_csv('syllabus.csv', usecols=[0,1])
+df = pd.read_csv('syllabus_2018.csv', usecols=[0,1])
 array = df.values.tolist()
 
 t = Tokenizer()
@@ -42,7 +42,7 @@ print(theme_word_list)
 
 
 
-with open('/Users/Jinya/Desktop/Syllabus/theme_words.csv', 'w',encoding='utf8') as f:
+with open('/Users/Jinya/Desktop/Syllabus/theme_words_2018.csv', 'w',encoding='utf8') as f:
     writer = csv.writer(f)
 
     writer.writerows(theme_word_list)

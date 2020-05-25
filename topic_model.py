@@ -11,17 +11,17 @@ import pandas as pd
 import itertools
 
 
-df = pd.read_csv('syllabus.csv', usecols=[0])
+df = pd.read_csv('syllabus_2018.csv', usecols=[0])
 class_names = df.values.tolist()
 class_names  = list(itertools.chain.from_iterable(class_names))
 
-f = open("theme_words.csv", "r")
+f = open("theme_words_2018.csv", "r")
 reader = csv.reader(f)
 texts = [ e for e in reader ]
 f.close()
 
 # トピック数の設定
-NUM_TOPICS = 10
+NUM_TOPICS = 8
 
 dictionary = corpora.Dictionary(texts)
 corpus = [dictionary.doc2bow(text) for text in texts]
