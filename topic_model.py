@@ -11,21 +11,25 @@ import pandas as pd
 import itertools
 
 
-df = pd.read_csv('syllabus_2018.csv', usecols=[0])
+df = pd.read_csv('syllabus.csv', usecols=[0])
 class_names = df.values.tolist()
 class_names  = list(itertools.chain.from_iterable(class_names))
 
-f = open("theme_words_2018.csv", "r")
+f = open("theme_words.csv", "r")
 reader = csv.reader(f)
 texts = [ e for e in reader ]
 f.close()
 
 # トピック数の設定
-NUM_TOPICS = 8
+NUM_TOPICS = 12
 
 dictionary = corpora.Dictionary(texts)
 corpus = [dictionary.doc2bow(text) for text in texts]
 lda_model = LdaModel(corpus=corpus, num_topics=NUM_TOPICS, id2word=dictionary)
+
+import pickle
+with open("lda_model.pickle", "wb") as f:
+    pickle.dump(lda_model, f)
 
 
 
@@ -34,14 +38,25 @@ lda_model = LdaModel(corpus=corpus, num_topics=NUM_TOPICS, id2word=dictionary)
 score_by_topic = defaultdict(int)
 test_corpus = [dictionary.doc2bow(text) for text in texts]
 
+topic_results = []
 # クラスタリング結果を出力
 for unseen_doc, raw_train_text in zip(test_corpus, class_names):
     print(raw_train_text, end='\t')
     for topic, score in lda_model[unseen_doc]:
         score_by_topic[int(topic)] = float(score)
+
+    number_list = []
     for i in range(NUM_TOPICS):
-        print('{:.2f}'.format(score_by_topic[i]), end='\t')
-    print()
+        number_list.append('{:.2f}'.format(score_by_topic[i]))
+    topic_results.append(number_list)
+
+df = pd.read_csv('syllabus.csv')
+df['トピックの確率'] = topic_results
+df.to_csv('syllabus_topic')
+
+
+
+
 
 
 # Visualize

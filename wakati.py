@@ -5,14 +5,15 @@ import nltk
 from nltk.corpus import stopwords
 
 import pandas as pd
-df = pd.read_csv('syllabus_2018.csv', usecols=[0,1])
+df = pd.read_csv('syllabus.csv', usecols=[3])
 array = df.values.tolist()
+print(array)
 
 t = Tokenizer()
 
 stop_words = stopwords.words('english')
 stop_words_number = list(range(10))
-add_stop_words = ['.','(',')','\"','\'','がち','テーマ','の','上','系','こと','もの','的','よう','the','The','in']
+add_stop_words = ['.','(',')','\"','\'','がち','テーマ','の','上','系','こと','もの','的','よう','授業','前期','後期','研究','演習','たち','目標','the','The','in']
 stop_words.extend(stop_words_number)
 stop_words.extend(add_stop_words)
 
@@ -20,8 +21,10 @@ stop_words.extend(add_stop_words)
 
 theme_word_list = []
 for row in array:
-    if type(row[1]) is str:
-        row_ = re.sub('u3000','',row[1])
+
+    if type(row[0]) is str:
+
+        row_ = re.sub('u3000','',row[0])
         print(row_)
 
 
@@ -42,7 +45,7 @@ print(theme_word_list)
 
 
 
-with open('/Users/Jinya/Desktop/Syllabus/theme_words_2018.csv', 'w',encoding='utf8') as f:
+with open('/Users/Jinya/Desktop/Syllabus/theme_words.csv', 'w',encoding='utf8') as f:
     writer = csv.writer(f)
 
     writer.writerows(theme_word_list)
