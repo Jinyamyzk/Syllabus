@@ -44,7 +44,7 @@ def add_sum_class(nendo):
         # important_list.append(strip_syllabus[3])
         # important_list.append(strip_syllabus[4])
         sum_class_info.append(important_list)
-    
+
 
 
 
@@ -223,8 +223,55 @@ add_sum_class(nendo)
 print(sum_class_info)
 
 
-
 #年度(2019年)を選択
+nendo = 2019
+element = driver.find_element_by_css_selector("#nendo")
+indexNum = 8
+select = Select(element)
+#セレクトタグのオプションをインデックス番号から選択する
+select.select_by_index(indexNum)
+time.sleep(1)
+
+
+
+#月曜日
+page_source=driver.page_source
+add_sum_class(nendo)
+
+
+
+#火曜日
+element = driver.find_element_by_css_selector("#jikanwariKeywordForm > table > tbody > tr:nth-child(2) > td:nth-child(2) > table > tbody > tr:nth-child(4) > td > table:nth-child(1) > tbody > tr > td > a:nth-child(1)")
+element.click()
+time.sleep(1)
+page_source=driver.page_source
+add_sum_class(nendo)
+
+#水曜日
+element = driver.find_element_by_css_selector("#jikanwariKeywordForm > table > tbody > tr:nth-child(2) > td:nth-child(2) > table > tbody > tr:nth-child(4) > td > table:nth-child(1) > tbody > tr > td > a:nth-child(2)")
+element.click()
+time.sleep(1)
+page_source=driver.page_source
+add_sum_class(nendo)
+
+
+#木曜日
+element = driver.find_element_by_css_selector("#jikanwariKeywordForm > table > tbody > tr:nth-child(2) > td:nth-child(2) > table > tbody > tr:nth-child(4) > td > table:nth-child(1) > tbody > tr > td > a:nth-child(3)")
+element.click()
+time.sleep(1)
+page_source=driver.page_source
+add_sum_class(nendo)
+
+#金曜日
+element = driver.find_element_by_css_selector("#jikanwariKeywordForm > table > tbody > tr:nth-child(2) > td:nth-child(2) > table > tbody > tr:nth-child(4) > td > table:nth-child(1) > tbody > tr > td > a:nth-child(4)")
+element.click()
+time.sleep(1)
+page_source=driver.page_source
+add_sum_class(nendo)
+
+
+
+#年度(2020年)を選択
 nendo = 2020
 element = driver.find_element_by_css_selector("#nendo")
 indexNum = 9

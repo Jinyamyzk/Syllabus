@@ -21,7 +21,7 @@ texts = [ e for e in reader ]
 f.close()
 
 # トピック数の設定
-NUM_TOPICS = 12
+NUM_TOPICS = 10
 
 dictionary = corpora.Dictionary(texts)
 corpus = [dictionary.doc2bow(text) for text in texts]
@@ -41,58 +41,66 @@ test_corpus = [dictionary.doc2bow(text) for text in texts]
 topic_results = []
 # クラスタリング結果を出力
 for unseen_doc, raw_train_text in zip(test_corpus, class_names):
-    print(raw_train_text, end='\t')
+    # print(raw_train_text, end='\t')
     for topic, score in lda_model[unseen_doc]:
         score_by_topic[int(topic)] = float(score)
 
     number_list = []
     for i in range(NUM_TOPICS):
+        # print('{:.2f}'.format(score_by_topic[i]))
         number_list.append('{:.2f}'.format(score_by_topic[i]))
+
+
     topic_results.append(number_list)
+
+
+
 
 df = pd.read_csv('syllabus.csv')
 df['トピックの確率'] = topic_results
-df.to_csv('syllabus_topic')
-
-
-
-
-
-
-# Visualize
-
-from wordcloud import WordCloud
-from PIL import Image
-import matplotlib
-import matplotlib.pylab as plt
-import numpy as np
-from tqdm import tqdm
-import math
-
-np.random.seed(0)
-FONT = "/Library/Fonts/Arial Unicode.ttf"
-
-
-ncols = math.ceil(NUM_TOPICS/2)
-nrows = math.ceil(lda_model.num_topics/ncols)
-fig, axs = plt.subplots(ncols=ncols, nrows=nrows, figsize=(15,7))
-axs = axs.flatten()
-
-def color_func(word, font_size, position, orientation, random_state, font_path):
-    return 'darkturquoise'
-
-for i, t in enumerate(range(lda_model.num_topics)):
-
-    x = dict(lda_model.show_topic(t, 30))
-    im = WordCloud(
-        font_path=FONT,
-        background_color='white',
-        color_func=color_func,
-        random_state=0
-    ).generate_from_frequencies(x)
-    axs[i].imshow(im)
-    axs[i].axis('off')
-    axs[i].set_title('Topic '+str(t))
-
-plt.tight_layout()
-plt.savefig("./visualize.png")
+print(df)
+df.to_pickle('syllabus.pkl')
+# df.to_csv('syllabus_topic.csv')
+#
+#
+#
+#
+#
+#
+# # Visualize
+#
+# from wordcloud import WordCloud
+# from PIL import Image
+# import matplotlib
+# import matplotlib.pylab as plt
+# import numpy as np
+# from tqdm import tqdm
+# import math
+#
+# np.random.seed(0)
+# FONT = "/Library/Fonts/Arial Unicode.ttf"
+#
+#
+# ncols = math.ceil(NUM_TOPICS/2)
+# nrows = math.ceil(lda_model.num_topics/ncols)
+# fig, axs = plt.subplots(ncols=ncols, nrows=nrows, figsize=(15,7))
+# axs = axs.flatten()
+#
+# def color_func(word, font_size, position, orientation, random_state, font_path):
+#     return 'darkturquoise'
+#
+# for i, t in enumerate(range(lda_model.num_topics)):
+#
+#     x = dict(lda_model.show_topic(t, 30))
+#     im = WordCloud(
+#         font_path=FONT,
+#         background_color='white',
+#         color_func=color_func,
+#         random_state=0
+#     ).generate_from_frequencies(x)
+#     axs[i].imshow(im)
+#     axs[i].axis('off')
+#     axs[i].set_title('Topic '+str(t))
+#
+# plt.tight_layout()
+# plt.savefig("./visualize.png")
