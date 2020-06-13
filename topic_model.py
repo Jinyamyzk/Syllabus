@@ -10,6 +10,8 @@ from collections import defaultdict
 import pandas as pd
 import itertools
 
+import json
+
 
 df = pd.read_csv('syllabus.csv', usecols=[0])
 class_names = df.values.tolist()
@@ -59,7 +61,7 @@ for unseen_doc, raw_train_text in zip(test_corpus, class_names):
 df = pd.read_csv('syllabus.csv')
 df['トピックの確率'] = topic_results
 print(df)
-df.to_pickle('syllabus.pkl')
+df.to_json('syllabus.json')
 # df.to_csv('syllabus_topic.csv')
 #
 #
