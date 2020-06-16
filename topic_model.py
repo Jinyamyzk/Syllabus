@@ -1,3 +1,4 @@
+import pickle
 from gensim import corpora, models, similarities
 import gensim
 import math
@@ -15,11 +16,11 @@ import json
 
 df = pd.read_csv('syllabus.csv', usecols=[0])
 class_names = df.values.tolist()
-class_names  = list(itertools.chain.from_iterable(class_names))
+class_names = list(itertools.chain.from_iterable(class_names))
 
 f = open("theme_words.csv", "r")
 reader = csv.reader(f)
-texts = [ e for e in reader ]
+texts = [e for e in reader]
 f.close()
 
 # トピック数の設定
@@ -29,34 +30,19 @@ dictionary = corpora.Dictionary(texts)
 corpus = [dictionary.doc2bow(text) for text in texts]
 lda_model = LdaModel(corpus=corpus, num_topics=NUM_TOPICS, id2word=dictionary)
 
-import pickle
 with open("lda_model.pickle", "wb") as f:
     pickle.dump(lda_model, f)
 
-
-
-
 # テストデータをモデルに掛ける
-score_by_topic = defaultdict(int)
 test_corpus = [dictionary.doc2bow(text) for text in texts]
 
 topic_results = []
 # クラスタリング結果を出力
 for unseen_doc, raw_train_text in zip(test_corpus, class_names):
-    # print(raw_train_text, end='\t')
+    score_by_topic = [0] * NUM_TOPICS
     for topic, score in lda_model[unseen_doc]:
-        score_by_topic[int(topic)] = float(score)
-
-    number_list = []
-    for i in range(NUM_TOPICS):
-        # print('{:.2f}'.format(score_by_topic[i]))
-        number_list.append('{:.2f}'.format(score_by_topic[i]))
-
-
-    topic_results.append(number_list)
-
-
-
+        score_by_topic[topic] = score
+    topic_results.append(score_by_topic)
 
 df = pd.read_csv('syllabus.csv')
 df['トピックの確率'] = topic_results
