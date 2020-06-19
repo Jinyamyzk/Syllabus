@@ -33,8 +33,8 @@ element.click()
 time.sleep(1)
 
 
-driver.find_element_by_id('j_username').send_keys('1686592c')#自分のIDを入れる
-driver.find_element_by_id('j_password').send_keys('IY30q4Ef')#パスワードを入れる
+driver.find_element_by_id('j_username').send_keys('')#自分のIDを入れる
+driver.find_element_by_id('j_password').send_keys('')#パスワードを入れる
 driver.find_element_by_name('_eventId_proceed').click()
 print('ログイン成功')
 time.sleep(1)
