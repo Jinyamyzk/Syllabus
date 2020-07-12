@@ -6,9 +6,9 @@ import csv
 
 def score_to_gpa(score):
     if score == '秀':
-        return 4.2
+        return 9
     elif score == '優':
-        return 4
+        return 6
     elif score == '良':
         return 3
     elif score == '可':
@@ -70,7 +70,7 @@ for tr_tag in tr_tags:
     list.append(gpa)
     grades.append(list)
 
-with open('/Users/Jinya/Desktop/Syllabus/grade.csv', 'w',encoding='utf8') as f:
+with open('/Users/Jinya/Desktop/Syllabus/grade2.csv', 'w',encoding='utf8') as f:
         writer = csv.writer(f)
         writer.writerow(["年度","時間割コード","GPA"])
         writer.writerows(grades)

@@ -46,7 +46,7 @@ NUM_TOPICS = 9
 
 # LDA Model
 # logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
-lda_model = gensim.models.ldamodel.LdaModel(corpus=corpus, id2word=dictionary, num_topics=NUM_TOPICS, alpha='symmetric', random_state=0)
+lda_model = gensim.models.ldamodel.LdaModel(corpus=corpus_tfidf, id2word=dictionary, num_topics=NUM_TOPICS, alpha='symmetric', random_state=0)
 
 # test
 N = sum(count for doc in corpus for id, count in doc)
@@ -71,31 +71,30 @@ df['トピックの確率'] = topic_results
 print(df)
 df.to_json('syllabus_tfidf.json')
 
-# WordCloud
-# fig, axs = plt.subplots(ncols=2, nrows=math.ceil(lda_model.num_topics/2), figsize=(16,20))
-# axs = axs.flatten()
-#
-# def color_func(word, font_size, position, orientation, random_state, font_path):
-#     return 'darkturquoise'
-#
-# for i, t in enumerate(range(lda_model.num_topics)):
-#
-#     x = dict(lda_model.show_topic(t, 30))
-#     im = WordCloud(
-#         background_color='black',
-#         font_path="/Library/Fonts//ヒラギノ丸ゴ ProN W4.ttc",
-#         color_func=color_func,
-#         max_words=4000,
-#         width=300, height=300,
-#         random_state=0
-#     ).generate_from_frequencies(x)
-#     axs[i].imshow(im.recolor(colormap= 'Paired_r' , random_state=244), alpha=0.98)
-#     axs[i].axis('off')
-#     axs[i].set_title('Topic '+str(t))
-#
-# # vis
-# plt.tight_layout()
-# plt.show()
-#
-# # save as png
-# plt.savefig('wordcloud.png')
+np.random.seed(0)
+FONT = "/Library/Fonts/Arial Unicode.ttf"
+
+
+ncols = math.ceil(NUM_TOPICS/2)
+nrows = math.ceil(lda_model.num_topics/ncols)
+fig, axs = plt.subplots(ncols=ncols, nrows=nrows, figsize=(15,7))
+axs = axs.flatten()
+
+def color_func(word, font_size, position, orientation, random_state, font_path):
+    return 'darkturquoise'
+
+for i, t in enumerate(range(lda_model.num_topics)):
+
+    x = dict(lda_model.show_topic(t, 30))
+    im = WordCloud(
+        font_path=FONT,
+        background_color='white',
+        color_func=color_func,
+        random_state=0
+    ).generate_from_frequencies(x)
+    axs[i].imshow(im)
+    axs[i].axis('off')
+    axs[i].set_title('Topic '+str(t))
+
+plt.tight_layout()
+plt.savefig("./visualize.png")
